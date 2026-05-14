@@ -41,3 +41,6 @@ uploads/
 logs/
 *.log
 .env
+application-local.yml
+application-local.properties
+*.orig
