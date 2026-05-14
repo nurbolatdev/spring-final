@@ -4,6 +4,7 @@ import com.example.finalproject.dto.response.UserResponse;
 import com.example.finalproject.service.NurbolatDjumadilovUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,14 @@ public class NurbolatDjumadilovUserController {
         return ResponseEntity.ok(userService.getByEmail(userDetails.getUsername()));
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PutMapping("/{id}/role")
+    public ResponseEntity<UserResponse> updateRole(@PathVariable Long id,
+                                                    @RequestParam String role) {
+        return ResponseEntity.ok(userService.updateRole(id, role));
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);

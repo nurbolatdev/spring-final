@@ -38,6 +38,14 @@ public class NurbolatDjumadilovUserService {
     }
 
     @Transactional
+    public UserResponse updateRole(Long id, String role) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        user.setRole(User.Role.valueOf(role));
+        return userMapper.toResponse(userRepository.save(user));
+    }
+
+    @Transactional
     public void delete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
