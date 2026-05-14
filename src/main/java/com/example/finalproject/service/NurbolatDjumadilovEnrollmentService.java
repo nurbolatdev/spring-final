@@ -26,6 +26,7 @@ public class NurbolatDjumadilovEnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
+    private final NurbolatDjumadilovEmailService emailService;
 
     @Transactional
     public EnrollmentResponse enroll(Long courseId, String userEmail) {
@@ -45,6 +46,7 @@ public class NurbolatDjumadilovEnrollmentService {
 
         Enrollment saved = enrollmentRepository.save(enrollment);
         log.info("User {} enrolled in course {}", userEmail, course.getTitle());
+        emailService.sendEnrollmentConfirmation(user.getEmail(), course.getTitle());
 
         return toResponse(saved);
     }
