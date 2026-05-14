@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -34,10 +35,21 @@ public class NurbolatDjumadilovFileService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    private static final Set<String> ALLOWED_TYPES = Set.of(
+            "application/pdf", "video/mp4", "image/jpeg", "image/png",
+            "application/zip", "text/plain"
+    );
+
     private final FileResourceRepository fileResourceRepository;
     private final CourseRepository courseRepository;
 
     public FileResource uploadFile(MultipartFile file, Long courseId) {
+        if (file.isEmpty()) {
+            throw new BadRequestException("File is empty");
+        }
+        if (!ALLOWED_TYPES.contains(file.getContentType())) {
+            throw new BadRequestException("File type not allowed: " + file.getContentType());
+        }
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
