@@ -43,14 +43,7 @@ public class NurbolatDjumadilovCourseController {
 
     @GetMapping("/my")
     public ResponseEntity<List<CourseResponse>> getMyCourses(@AuthenticationPrincipal UserDetails userDetails) {
-        return ResponseEntity.ok(courseService.getByTeacher(
-                courseService.getAll(null, null, Pageable.unpaged())
-                        .getContent()
-                        .stream()
-                        .filter(c -> c.getTeacherUsername().equals(userDetails.getUsername()))
-                        .findFirst()
-                        .map(CourseResponse::getId)
-                        .orElse(0L)));
+        return ResponseEntity.ok(courseService.getByTeacherEmail(userDetails.getUsername()));
     }
 
     @PostMapping

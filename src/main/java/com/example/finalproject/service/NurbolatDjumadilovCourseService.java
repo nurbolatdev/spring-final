@@ -48,6 +48,15 @@ public class NurbolatDjumadilovCourseService {
                 .toList();
     }
 
+    public List<CourseResponse> getByTeacherEmail(String email) {
+        User teacher = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found"));
+        return courseRepository.findByTeacherId(teacher.getId())
+                .stream()
+                .map(courseMapper::toResponse)
+                .toList();
+    }
+
     public CourseResponse create(CourseRequest request, String teacherEmail) {
         User teacher = userRepository.findByEmail(teacherEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("Teacher not found"));
