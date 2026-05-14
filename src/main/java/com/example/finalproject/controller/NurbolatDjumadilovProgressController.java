@@ -2,12 +2,14 @@ package com.example.finalproject.controller;
 
 import com.example.finalproject.dto.response.ProgressResponse;
 import com.example.finalproject.service.NurbolatDjumadilovProgressService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Progress", description = "Student course progress tracking")
 @RestController
 @RequestMapping("/progress")
 @RequiredArgsConstructor

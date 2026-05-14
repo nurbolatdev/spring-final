@@ -2,6 +2,7 @@ package com.example.finalproject.controller;
 
 import com.example.finalproject.dto.response.UserResponse;
 import com.example.finalproject.service.NurbolatDjumadilovUserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Users", description = "User management (admin only)")
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor

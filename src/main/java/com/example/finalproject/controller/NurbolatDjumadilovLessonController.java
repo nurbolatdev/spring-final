@@ -3,6 +3,8 @@ package com.example.finalproject.controller;
 import com.example.finalproject.dto.request.LessonRequest;
 import com.example.finalproject.dto.response.LessonResponse;
 import com.example.finalproject.service.NurbolatDjumadilovLessonService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Lessons", description = "Lesson management per course")
 @RestController
 @RequestMapping("/lessons")
 @RequiredArgsConstructor

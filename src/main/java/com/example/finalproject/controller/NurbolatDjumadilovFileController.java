@@ -2,6 +2,7 @@ package com.example.finalproject.controller;
 
 import com.example.finalproject.entity.FileResource;
 import com.example.finalproject.service.NurbolatDjumadilovFileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Tag(name = "Files", description = "Course file upload and download")
 @RestController
 @RequestMapping("/files")
 @RequiredArgsConstructor
