@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class NurbolatDjumadilovEnrollmentService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
 
+    @Transactional
     public EnrollmentResponse enroll(Long courseId, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -57,6 +59,7 @@ public class NurbolatDjumadilovEnrollmentService {
                 .toList();
     }
 
+    @Transactional
     public void unenroll(Long courseId, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));

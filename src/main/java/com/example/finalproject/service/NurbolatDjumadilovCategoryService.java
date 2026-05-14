@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class NurbolatDjumadilovCategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
     }
 
+    @Transactional
     public Category create(CategoryRequest request) {
         if (categoryRepository.existsByTitle(request.getTitle())) {
             throw new BadRequestException("Category with this title already exists");
@@ -40,6 +42,7 @@ public class NurbolatDjumadilovCategoryService {
         return categoryRepository.save(category);
     }
 
+    @Transactional
     public Category update(Long id, CategoryRequest request) {
         Category category = getById(id);
         category.setTitle(request.getTitle());
@@ -47,6 +50,7 @@ public class NurbolatDjumadilovCategoryService {
         return categoryRepository.save(category);
     }
 
+    @Transactional
     public void delete(Long id) {
         Category category = getById(id);
         log.info("Deleting category: {}", category.getTitle());

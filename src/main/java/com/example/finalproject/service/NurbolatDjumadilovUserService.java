@@ -7,6 +7,7 @@ import com.example.finalproject.mapper.NurbolatDjumadilovUserMapper;
 import com.example.finalproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class NurbolatDjumadilovUserService {
         return userMapper.toResponse(user);
     }
 
+    @Transactional
     public void delete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));

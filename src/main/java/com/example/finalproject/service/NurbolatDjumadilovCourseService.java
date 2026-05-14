@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class NurbolatDjumadilovCourseService {
                 .toList();
     }
 
+    @Transactional
     public CourseResponse create(CourseRequest request, String teacherEmail) {
         User teacher = userRepository.findByEmail(teacherEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("Teacher not found"));
@@ -74,6 +76,7 @@ public class NurbolatDjumadilovCourseService {
         return courseMapper.toResponse(courseRepository.save(course));
     }
 
+    @Transactional
     public CourseResponse update(Long id, CourseRequest request) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
@@ -88,6 +91,7 @@ public class NurbolatDjumadilovCourseService {
         return courseMapper.toResponse(courseRepository.save(course));
     }
 
+    @Transactional
     public void delete(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));

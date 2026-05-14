@@ -10,6 +10,7 @@ import com.example.finalproject.repository.CourseRepository;
 import com.example.finalproject.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class NurbolatDjumadilovLessonService {
         return lessonMapper.toResponse(lesson);
     }
 
+    @Transactional
     public LessonResponse create(LessonRequest request) {
         Course course = courseRepository.findById(request.getCourseId())
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
@@ -47,6 +49,7 @@ public class NurbolatDjumadilovLessonService {
         return lessonMapper.toResponse(lessonRepository.save(lesson));
     }
 
+    @Transactional
     public LessonResponse update(Long id, LessonRequest request) {
         Lesson lesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found with id: " + id));
@@ -58,6 +61,7 @@ public class NurbolatDjumadilovLessonService {
         return lessonMapper.toResponse(lessonRepository.save(lesson));
     }
 
+    @Transactional
     public void delete(Long id) {
         Lesson lesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found with id: " + id));
