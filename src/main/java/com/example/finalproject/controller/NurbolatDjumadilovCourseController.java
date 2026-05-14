@@ -2,6 +2,7 @@ package com.example.finalproject.controller;
 
 import com.example.finalproject.dto.request.CourseRequest;
 import com.example.finalproject.dto.response.CourseResponse;
+import com.example.finalproject.dto.response.CourseStatsResponse;
 import com.example.finalproject.service.NurbolatDjumadilovCourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,12 @@ public class NurbolatDjumadilovCourseController {
     @GetMapping("/{id}")
     public ResponseEntity<CourseResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(courseService.getById(id));
+    }
+
+    @Operation(summary = "Get statistics for a course")
+    @GetMapping("/{id}/stats")
+    public ResponseEntity<CourseStatsResponse> getStats(@PathVariable Long id) {
+        return ResponseEntity.ok(courseService.getStats(id));
     }
 
     @GetMapping("/my")

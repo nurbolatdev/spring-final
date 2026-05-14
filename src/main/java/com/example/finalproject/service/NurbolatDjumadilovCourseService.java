@@ -2,6 +2,7 @@ package com.example.finalproject.service;
 
 import com.example.finalproject.dto.request.CourseRequest;
 import com.example.finalproject.dto.response.CourseResponse;
+import com.example.finalproject.dto.response.CourseStatsResponse;
 import com.example.finalproject.entity.Category;
 import com.example.finalproject.entity.Course;
 import com.example.finalproject.entity.User;
@@ -9,6 +10,8 @@ import com.example.finalproject.exception.ResourceNotFoundException;
 import com.example.finalproject.mapper.NurbolatDjumadilovCourseMapper;
 import com.example.finalproject.repository.CategoryRepository;
 import com.example.finalproject.repository.CourseRepository;
+import com.example.finalproject.repository.LessonRepository;
+import com.example.finalproject.repository.ReviewRepository;
 import com.example.finalproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -29,6 +32,8 @@ public class NurbolatDjumadilovCourseService {
     private final CourseRepository courseRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final LessonRepository lessonRepository;
+    private final ReviewRepository reviewRepository;
     private final NurbolatDjumadilovCourseMapper courseMapper;
 
     public Page<CourseResponse> getAll(String search, Long categoryId, Pageable pageable) {
@@ -96,6 +101,19 @@ public class NurbolatDjumadilovCourseService {
         course.setCategory(category);
 
         return courseMapper.toResponse(courseRepository.save(course));
+    }
+
+    public CourseStatsResponse getStats(Long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
+
+        int enrollmentCount = course.getEnrollments() == null ? 0 : course.getEnrollments().size();
+        int lessonCount = lessonRepository.countByCourseId(id);
+        Double avg = reviewRepository.findAverageRatingByCourseId(id);
+        double averageRating = avg != null ? avg : 0.0;
+        int reviewCount = reviewRepository.findByCourseId(id).size();
+
+        return new CourseStatsResponse(id, course.getTitle(), enrollmentCount, lessonCount, averageRating, reviewCount);
     }
 
     @Transactional
