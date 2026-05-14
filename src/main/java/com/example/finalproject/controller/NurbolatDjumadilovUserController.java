@@ -1,5 +1,6 @@
 package com.example.finalproject.controller;
 
+import com.example.finalproject.dto.request.ChangePasswordRequest;
 import com.example.finalproject.dto.request.UpdateProfileRequest;
 import com.example.finalproject.dto.response.UserResponse;
 import com.example.finalproject.service.NurbolatDjumadilovUserService;
@@ -40,6 +41,13 @@ public class NurbolatDjumadilovUserController {
     public ResponseEntity<UserResponse> updateProfile(@jakarta.validation.Valid @RequestBody UpdateProfileRequest request,
                                                        @AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(userService.updateProfile(userDetails.getUsername(), request));
+    }
+
+    @PutMapping("/me/password")
+    public ResponseEntity<Void> changePassword(@jakarta.validation.Valid @RequestBody ChangePasswordRequest request,
+                                                @AuthenticationPrincipal UserDetails userDetails) {
+        userService.changePassword(userDetails.getUsername(), request);
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

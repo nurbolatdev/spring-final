@@ -1,5 +1,6 @@
 package com.example.finalproject.service;
 
+import com.example.finalproject.dto.request.ChangePasswordRequest;
 import com.example.finalproject.dto.request.UpdateProfileRequest;
 import com.example.finalproject.dto.response.UserResponse;
 import com.example.finalproject.entity.User;
@@ -8,6 +9,7 @@ import com.example.finalproject.exception.ResourceNotFoundException;
 import com.example.finalproject.mapper.NurbolatDjumadilovUserMapper;
 import com.example.finalproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ public class NurbolatDjumadilovUserService {
 
     private final UserRepository userRepository;
     private final NurbolatDjumadilovUserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public List<UserResponse> getAll() {
         return userRepository.findAll()
@@ -57,6 +60,17 @@ public class NurbolatDjumadilovUserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
         user.setRole(User.Role.valueOf(role));
         return userMapper.toResponse(userRepository.save(user));
+    }
+
+    @Transactional
+    public void changePassword(String email, ChangePasswordRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new BadRequestException("Current password is incorrect");
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 
     @Transactional
