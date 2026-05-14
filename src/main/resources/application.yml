@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: nurbolat-course-platform
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/coursedb
+    username: courseuser
+    password: coursepassword
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.example.finalproject: DEBUG
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/app.log
+
+jwt:
+  secret: "nurbolat-djumadilov-secret-key-for-jwt-2024-course-platform"
+  expiration: 86400000
+
+file:
+  upload-dir: uploads/
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
