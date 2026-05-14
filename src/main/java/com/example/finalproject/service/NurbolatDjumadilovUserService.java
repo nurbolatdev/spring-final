@@ -1,7 +1,9 @@
 package com.example.finalproject.service;
 
+import com.example.finalproject.dto.request.UpdateProfileRequest;
 import com.example.finalproject.dto.response.UserResponse;
 import com.example.finalproject.entity.User;
+import com.example.finalproject.exception.BadRequestException;
 import com.example.finalproject.exception.ResourceNotFoundException;
 import com.example.finalproject.mapper.NurbolatDjumadilovUserMapper;
 import com.example.finalproject.repository.UserRepository;
@@ -35,6 +37,18 @@ public class NurbolatDjumadilovUserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return userMapper.toResponse(user);
+    }
+
+    @Transactional
+    public UserResponse updateProfile(String email, UpdateProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (userRepository.existsByUsername(request.getUsername())
+                && !user.getUsername().equals(request.getUsername())) {
+            throw new BadRequestException("Username already taken");
+        }
+        user.setUsername(request.getUsername());
+        return userMapper.toResponse(userRepository.save(user));
     }
 
     @Transactional

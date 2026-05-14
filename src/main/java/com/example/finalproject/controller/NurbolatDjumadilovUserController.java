@@ -1,5 +1,6 @@
 package com.example.finalproject.controller;
 
+import com.example.finalproject.dto.request.UpdateProfileRequest;
 import com.example.finalproject.dto.response.UserResponse;
 import com.example.finalproject.service.NurbolatDjumadilovUserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,6 +34,12 @@ public class NurbolatDjumadilovUserController {
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getMe(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(userService.getByEmail(userDetails.getUsername()));
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<UserResponse> updateProfile(@jakarta.validation.Valid @RequestBody UpdateProfileRequest request,
+                                                       @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(userService.updateProfile(userDetails.getUsername(), request));
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
