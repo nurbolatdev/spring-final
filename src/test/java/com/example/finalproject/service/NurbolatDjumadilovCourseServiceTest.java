@@ -9,6 +9,8 @@ import com.example.finalproject.exception.ResourceNotFoundException;
 import com.example.finalproject.mapper.NurbolatDjumadilovCourseMapper;
 import com.example.finalproject.repository.CategoryRepository;
 import com.example.finalproject.repository.CourseRepository;
+import com.example.finalproject.repository.LessonRepository;
+import com.example.finalproject.repository.ReviewRepository;
 import com.example.finalproject.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +34,10 @@ class NurbolatDjumadilovCourseServiceTest {
     private CategoryRepository categoryRepository;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private LessonRepository lessonRepository;
+    @Mock
+    private ReviewRepository reviewRepository;
     @Mock
     private NurbolatDjumadilovCourseMapper courseMapper;
 
