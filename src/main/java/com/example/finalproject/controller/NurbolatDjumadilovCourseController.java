@@ -51,6 +51,12 @@ public class NurbolatDjumadilovCourseController {
         return ResponseEntity.ok(courseService.getByTeacherEmail(userDetails.getUsername()));
     }
 
+    @Operation(summary = "Get courses by teacher username")
+    @GetMapping("/teacher/{username}")
+    public ResponseEntity<List<CourseResponse>> getByTeacher(@PathVariable String username) {
+        return ResponseEntity.ok(courseService.getByTeacherUsername(username));
+    }
+
     @PreAuthorize("hasAnyAuthority('ROLE_TEACHER','ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CourseResponse> create(@Valid @RequestBody CourseRequest request,

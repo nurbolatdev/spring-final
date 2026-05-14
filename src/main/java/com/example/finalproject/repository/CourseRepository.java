@@ -15,6 +15,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     List<Course> findByTeacherId(Long teacherId);
 
+    List<Course> findByTeacherUsername(String username);
+
     List<Course> findByCategoryId(Long categoryId);
 
     Page<Course> findAll(Pageable pageable);

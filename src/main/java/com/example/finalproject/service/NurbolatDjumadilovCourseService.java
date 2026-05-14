@@ -58,6 +58,13 @@ public class NurbolatDjumadilovCourseService {
                 .toList();
     }
 
+    public List<CourseResponse> getByTeacherUsername(String username) {
+        return courseRepository.findByTeacherUsername(username)
+                .stream()
+                .map(courseMapper::toResponse)
+                .toList();
+    }
+
     @Transactional
     public CourseResponse create(CourseRequest request, String teacherEmail) {
         User teacher = userRepository.findByEmail(teacherEmail)
