@@ -28,6 +28,7 @@ public class NurbolatDjumadilovCourseController {
 
     private final NurbolatDjumadilovCourseService courseService;
 
+    @Operation(summary = "Get all courses with optional search and category filter")
     @GetMapping
     public ResponseEntity<Page<CourseResponse>> getAll(
             @RequestParam(required = false) String search,
