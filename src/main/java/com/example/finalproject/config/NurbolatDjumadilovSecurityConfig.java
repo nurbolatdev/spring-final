@@ -40,6 +40,7 @@ public class NurbolatDjumadilovSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
                         .requestMatchers(HttpMethod.GET, "/courses/**", "/categories/**", "/lessons/**").permitAll()
                         .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
