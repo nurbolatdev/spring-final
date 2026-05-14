@@ -10,5 +10,6 @@ public interface NurbolatDjumadilovCourseMapper {
 
     @Mapping(source = "category.title", target = "categoryTitle")
     @Mapping(source = "teacher.username", target = "teacherUsername")
+    @Mapping(expression = "java(course.getEnrollments() == null ? 0 : course.getEnrollments().size())", target = "studentCount")
     CourseResponse toResponse(Course course);
 }
