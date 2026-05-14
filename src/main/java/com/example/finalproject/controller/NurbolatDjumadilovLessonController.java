@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,17 +29,20 @@ public class NurbolatDjumadilovLessonController {
         return ResponseEntity.ok(lessonService.getById(id));
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_TEACHER','ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<LessonResponse> create(@Valid @RequestBody LessonRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(lessonService.create(request));
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_TEACHER','ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<LessonResponse> update(@PathVariable Long id,
                                                   @Valid @RequestBody LessonRequest request) {
         return ResponseEntity.ok(lessonService.update(id, request));
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_TEACHER','ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         lessonService.delete(id);

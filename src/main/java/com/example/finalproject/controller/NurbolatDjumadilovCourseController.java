@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,7 @@ public class NurbolatDjumadilovCourseController {
         return ResponseEntity.ok(courseService.getByTeacherEmail(userDetails.getUsername()));
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_TEACHER','ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CourseResponse> create(@Valid @RequestBody CourseRequest request,
                                                   @AuthenticationPrincipal UserDetails userDetails) {
@@ -53,12 +55,14 @@ public class NurbolatDjumadilovCourseController {
                 .body(courseService.create(request, userDetails.getUsername()));
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_TEACHER','ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<CourseResponse> update(@PathVariable Long id,
                                                   @Valid @RequestBody CourseRequest request) {
         return ResponseEntity.ok(courseService.update(id, request));
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_TEACHER','ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         courseService.delete(id);
